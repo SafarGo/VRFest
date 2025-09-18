@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class Injury : MonoBehaviour
 {
@@ -8,10 +9,17 @@ public class Injury : MonoBehaviour
     public InjuryLevelController LevelController;
 
 
-    private void OnParticleCollision(GameObject other)
+    private void OnCollisionEnter(Collision collision)
     {
-        Lives -= 5;
-        if(Lives <=0)
+        if(collision.gameObject.CompareTag("Water"))
+        {
+            Lives -= 10;
+        }
+    }
+
+    private void Update()
+    {
+        if(Lives<=0)
         {
             LevelController.IsWaterDropped = true;
         }
@@ -20,7 +28,7 @@ public class Injury : MonoBehaviour
     public void Bandage()
     {
         LevelController.IsBandageApplied = true;
-        Debug.Log("!");
+        GameObject bandage = GameObject.Find("Bandage");
+        bandage.GetComponent<XRGrabInteractable>().enabled = false;
     }
-
 }

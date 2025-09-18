@@ -9,6 +9,7 @@ public class InjuryLevelController : MonoBehaviour
     public bool IsBandageApplied = false;
     public bool IsTabletsGave = false;
     public bool IsCrane = false;
+    public int giventablets = 0;
 
     private void Awake()
     {
@@ -22,5 +23,13 @@ public class InjuryLevelController : MonoBehaviour
     public void UnCraneButton()
     {
         IsCrane = false;
+    }
+
+    private void Update()
+    {
+        if(IsTabletsGave && IsWaterDropped && IsBandageApplied)
+        {
+            Debug.Log("Конец");
+        }
     }
 }

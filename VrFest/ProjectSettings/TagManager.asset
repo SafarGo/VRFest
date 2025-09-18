@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Anchor
   - Water
+  - Tablet
+  - Injury
+  - Mouth
+  - Default
   layers:
   - Default
   - TransparentFX
