@@ -6,18 +6,10 @@ public class TabletController : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Mouth"))
+        if(other.gameObject.CompareTag("Mouth") && InjuryLevelController.instance.IsBandageApplied)
         {
             InjuryLevelController.instance.giventablets += 1;
             Destroy(this.gameObject);
-        }
-    }
-
-    private void Update()
-    {
-        if(InjuryLevelController.instance.giventablets ==2)
-        {
-            InjuryLevelController.instance.IsTabletsGave = true;
         }
     }
 }

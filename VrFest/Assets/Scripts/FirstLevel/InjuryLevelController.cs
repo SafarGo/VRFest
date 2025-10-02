@@ -27,9 +27,19 @@ public class InjuryLevelController : MonoBehaviour
 
     private void Update()
     {
+        if(giventablets ==2)
+        {
+            IsTabletsGave = true;
+            ObjectsActivator.instance.Activate(2);
+            
+        }
+        if(IsWaterDropped && GameObject.Find("cup") != null)
+        {
+            GameObject.Find("cup").SetActive(false);
+        }
         if(IsTabletsGave && IsWaterDropped && IsBandageApplied)
         {
-            Debug.Log("Конец");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅ");
         }
     }
 }
