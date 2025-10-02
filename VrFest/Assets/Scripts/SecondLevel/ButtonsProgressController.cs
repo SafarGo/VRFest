@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VRTemplate;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonsProgressController : MonoBehaviour
 {
-    public int buttons = 3;
-    public bool is_rotate = false;
-    private XRKnob xrKnob; 
+    public XRKnob xrKnob;
+    public GameObject des;
+    public Slider slider_ring;
 
     void Start()
     {
-        xrKnob = GetComponent<XRKnob>(); 
+        xrKnob = this.GetComponent<XRKnob>();
     }
 
     private void Update()
     {
-        if (xrKnob.value <= 0)
+        slider_ring.value = xrKnob.value;
+
+        if (xrKnob.value < 0)
         {
-            is_rotate = true;
+            Eventmanager.buttons--;
+            Destroy(des);
 
         }
     }
