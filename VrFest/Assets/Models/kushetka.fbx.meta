@@ -14,6 +14,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: podushka
     second: {fileID: 2100000, guid: 280cd3a566b482b43bd550f9c5e86ae6, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: AdjTaswBN
+    second: {fileID: 2800000, guid: 684aeb6ff0aa92d469630d0266a9673f, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

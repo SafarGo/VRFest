@@ -3,7 +3,37 @@ guid: 3d2e82215d25a2d48850f165c8c61568
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 5d3f4199bc03dcc4d8fd49b83b1f3b96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: 72c9ed3fea3b4824ab1a598244169c4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: c67bf34c24d553549bc06a690f358a6c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: podushka
+    second: {fileID: 2100000, guid: ea1e19d4c28b3e644ad38070d8d7ed2f, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 9d83926b3df9d9f84f32a5437ed907d4
+    second: {fileID: 2800000, guid: 888d7f11d52ff8147b846a8d37b73491, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: AdjTaswBN
+    second: {fileID: 2800000, guid: 39b0b598c4c743d448707d7e344dea39, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
