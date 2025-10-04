@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class LookAtMe : MonoBehaviour
 {
-
+    public Transform Player;
     void Update()
     {
-        GameObject obj = GameObject.Find("Player");
-        transform.LookAt(obj.transform);
+        transform.LookAt(Player);
     }
 }

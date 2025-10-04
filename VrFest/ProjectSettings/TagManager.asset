@@ -11,6 +11,7 @@ TagManager:
   - Mouth
   - Default
   - Bandage
+  - Grud
   layers:
   - Default
   - TransparentFX

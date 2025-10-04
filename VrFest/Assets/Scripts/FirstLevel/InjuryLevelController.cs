@@ -10,6 +10,7 @@ public class InjuryLevelController : MonoBehaviour
     public bool IsTabletsGave = false;
     public bool IsCrane = false;
     public int giventablets = 0;
+    public bool isLevelEndedSuccesfull = false;
 
     private void Awake()
     {
@@ -39,7 +40,13 @@ public class InjuryLevelController : MonoBehaviour
         }
         if(IsTabletsGave && IsWaterDropped && IsBandageApplied)
         {
-            Debug.Log("�����");
+            CheckProgress();
         }
+    }
+
+    public void CheckProgress()
+    {
+        isLevelEndedSuccesfull = (IsTabletsGave && IsWaterDropped && IsBandageApplied) ? true : false;
+        Timer.instance.Success(isLevelEndedSuccesfull);
     }
 }
