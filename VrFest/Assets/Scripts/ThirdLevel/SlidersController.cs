@@ -13,7 +13,8 @@ public class SlidersController : MonoBehaviour
     private int direction = 1;
     public float speed;
     public static SlidersController instance;
-
+    public bool is_started = false;
+    public bool is_end = false;
 
     private void Awake()
     {
@@ -45,6 +46,11 @@ public class SlidersController : MonoBehaviour
         if (minValue_for_success_hit < value && value < maxValue_for_success_hit)
         {
             PlusCondition();
+            if (!is_started)
+            {
+                ThirdLevelController.instance.StartSet();
+                is_started = true;
+            }
         }
     }
 
@@ -52,8 +58,12 @@ public class SlidersController : MonoBehaviour
     {
         speed = 0;
         Human_Condition_Slider.value = 1;
-        ThirdLevelController.instance.EndSet();
-        Debug.Log("!!");
+        if (!is_end)
+        {
+            ThirdLevelController.instance.EndSet();
+            is_end = true;
+        }
+        
     }
 
     void MoveSlider()
@@ -68,8 +78,4 @@ public class SlidersController : MonoBehaviour
         }
     }
 
-    public void StartGame()
-    {
-        ThirdLevelController.instance.StartSet();
-    }
 }

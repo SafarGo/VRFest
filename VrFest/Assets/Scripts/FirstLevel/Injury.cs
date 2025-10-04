@@ -12,6 +12,7 @@ public class Injury : MonoBehaviour
     public Slider Slider;
     public GameObject Socket;
     public static Injury instance;
+    public bool is_cold = false;
 
     private void Awake()
     {
@@ -33,11 +34,12 @@ public class Injury : MonoBehaviour
 
     private void Update()
     {
-        if(Lives<=0)
+        if(Lives<=0 && !is_cold)
         {
             LevelController.IsWaterDropped = true;
             Socket.GetComponent<XRSocketInteractor>().enabled = true;
             ObjectsActivator.instance.Activate(0);
+            is_cold = true;
         }
         Slider.value = Lives;
     }
@@ -49,6 +51,6 @@ public class Injury : MonoBehaviour
             obj.GetComponent<XRGrabInteractable>().enabled = false;
             obj.GetComponent<Rigidbody>().isKinematic = true;
             ObjectsActivator.instance.Activate(1);
-
+            
     }
 }

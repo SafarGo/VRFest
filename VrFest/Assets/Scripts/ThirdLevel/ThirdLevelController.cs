@@ -6,7 +6,7 @@ public class ThirdLevelController : MonoBehaviour
 {
     public static ThirdLevelController instance;
     public bool isHandsTogether = false;
-    public bool isStartedProcess = true;
+    public bool isStartedProcess = false;
     public bool isEndedPocess = false;
 
     private void Awake()

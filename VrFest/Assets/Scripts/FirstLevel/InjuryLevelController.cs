@@ -32,7 +32,8 @@ public class InjuryLevelController : MonoBehaviour
         {
             IsTabletsGave = true;
             ObjectsActivator.instance.Activate(2);
-            
+            giventablets = 3;
+
         }
         if(IsWaterDropped && GameObject.Find("cup") != null)
         {

@@ -7,6 +7,7 @@ public class ObjectsActivator : MonoBehaviour
     public List<GameObject> galochki = new List<GameObject>();
     public static ObjectsActivator instance;
     public AudioSource sound;
+    public AudioClip clip;
 
     private void Awake()
     {
@@ -17,6 +18,6 @@ public class ObjectsActivator : MonoBehaviour
     public void Activate(int index)
     {
         galochki[index].SetActive(true);
-        sound.Play();
+        sound.PlayOneShot(clip);
     }
 }
