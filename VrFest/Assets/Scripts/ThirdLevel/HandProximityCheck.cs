@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 public class HandProximityCheck : MonoBehaviour
@@ -12,7 +13,7 @@ public class HandProximityCheck : MonoBehaviour
     public bool wasTogether = false;
 
     public static HandProximityCheck instance;
-
+    public Slider Slider;
     public bool AreHandsTogether => togetherTimer >= successDuration;
     public float CurrentHandDistance { get; private set; }
 
@@ -50,17 +51,22 @@ public class HandProximityCheck : MonoBehaviour
             if (CurrentHandDistance < maxDistanceForTogether)
             {
                 togetherTimer += Time.deltaTime;
+                Slider.gameObject.SetActive(true);
+                Slider.value = togetherTimer / 2;
 
                 if (togetherTimer >= successDuration && !wasTogether)
                 {
                     HandsTogetherSuccess();
                     wasTogether = true;
+                    ThirdLevelController.instance.HandsSet();
+                    DisActiveSlider();
                 }
             }
             else
             {
                 togetherTimer = 0f;
                 wasTogether = false;
+                DisActiveSlider();
             }
         }
     }
@@ -78,5 +84,11 @@ public class HandProximityCheck : MonoBehaviour
     void HandsTogetherSuccess()
     {
         Debug.Log("Pico hands together - success!");
+    }
+
+    void DisActiveSlider()
+    {
+        Slider.gameObject.SetActive(false);
+        Slider.value = 0;
     }
 }

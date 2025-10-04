@@ -14,6 +14,7 @@ public class SlidersController : MonoBehaviour
     public float speed;
     public static SlidersController instance;
 
+
     private void Awake()
     {
         instance = this;
@@ -21,16 +22,16 @@ public class SlidersController : MonoBehaviour
 
     private void Update()
     {
-        if(Slider_for_hits.value == 0)
-        {
-            direction = 1;
-        }
-        else if (Slider_for_hits.value == 1)
-        {
-            direction = -1;
-        }
-        Slider_for_hits.value += speed * direction;
-        Human_Condition_Slider.value -= 0.001f;
+        //if (ThirdLevelController.instance.isStartedProcess)
+        //{
+            MoveSlider();
+            Slider_for_hits.value += speed * direction;
+            Human_Condition_Slider.value -= 0.001f;
+            if (Human_Condition_Slider.value >0.95)
+            {
+                StopGame();
+            }
+        //}
     }
 
 
@@ -45,5 +46,30 @@ public class SlidersController : MonoBehaviour
         {
             PlusCondition();
         }
+    }
+
+    void StopGame()
+    {
+        speed = 0;
+        Human_Condition_Slider.value = 1;
+        ThirdLevelController.instance.EndSet();
+        Debug.Log("!!");
+    }
+
+    void MoveSlider()
+    {
+        if (Slider_for_hits.value == 0)
+        {
+            direction = 1;
+        }
+        else if (Slider_for_hits.value == 1)
+        {
+            direction = -1;
+        }
+    }
+
+    public void StartGame()
+    {
+        ThirdLevelController.instance.StartSet();
     }
 }

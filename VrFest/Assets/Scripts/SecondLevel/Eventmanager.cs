@@ -15,7 +15,7 @@ public class Eventmanager : MonoBehaviour
         {
             GameObject cloth = GameObject.Find("cloth");
             cloth.GetComponent<XRGrabInteractable>().enabled = true;
-            cloth.GetComponent<Rigidbody>().isKinematic = false;
+            cloth.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 }

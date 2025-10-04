@@ -9,6 +9,7 @@ public class ButtonsProgressController : MonoBehaviour
     public XRKnob xrKnob;
     public GameObject des;
     public Slider slider_ring;
+    
 
     void Start()
     {
