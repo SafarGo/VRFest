@@ -12,6 +12,7 @@ TagManager:
   - Default
   - Bandage
   - Grud
+  - Hand
   layers:
   - Default
   - TransparentFX

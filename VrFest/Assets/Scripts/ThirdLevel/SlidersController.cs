@@ -12,6 +12,12 @@ public class SlidersController : MonoBehaviour
     public float maxValue_for_success_hit;
     private int direction = 1;
     public float speed;
+    public static SlidersController instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Update()
     {
@@ -24,13 +30,13 @@ public class SlidersController : MonoBehaviour
             direction = -1;
         }
         Slider_for_hits.value += speed * direction;
-        Human_Condition_Slider.value -= 0.01f;
+        Human_Condition_Slider.value -= 0.001f;
     }
 
 
     public void PlusCondition()
     {
-        Human_Condition_Slider.value += 0.1f;
+        Human_Condition_Slider.value += 0.2f;
     }
 
     public void CheckHit(float value)

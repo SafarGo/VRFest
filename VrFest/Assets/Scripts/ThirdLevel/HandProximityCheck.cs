@@ -9,9 +9,12 @@ public class HandProximityCheck : MonoBehaviour
     private InputDevice leftController;
     private InputDevice rightController;
     private float togetherTimer = 0f;
-    private bool wasTogether = false;
+    public bool wasTogether = false;
 
     public static HandProximityCheck instance;
+
+    public bool AreHandsTogether => togetherTimer >= successDuration;
+    public float CurrentHandDistance { get; private set; }
 
     private void Awake()
     {
@@ -42,9 +45,9 @@ public class HandProximityCheck : MonoBehaviour
         if (GetControllerPosition(leftController, out Vector3 leftPos) &&
             GetControllerPosition(rightController, out Vector3 rightPos))
         {
-            float distance = Vector3.Distance(leftPos, rightPos);
+            CurrentHandDistance = Vector3.Distance(leftPos, rightPos);
 
-            if (distance < maxDistanceForTogether)
+            if (CurrentHandDistance < maxDistanceForTogether)
             {
                 togetherTimer += Time.deltaTime;
 
