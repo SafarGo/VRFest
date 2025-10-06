@@ -13,6 +13,10 @@ public class Eventmanager : MonoBehaviour
     public int newput_cloth = 0;
     public bool cloth_up = false;
     public bool cloth_down = false;
+    public Animator animator;
+    public GameObject blanket;
+    public GameObject first_socket;
+    public GameObject second_socket;
 
     public SocketController upSocketController;
     public SocketController downSocketController;
@@ -48,12 +52,25 @@ public class Eventmanager : MonoBehaviour
         {
             up_cloth.GetComponent<XRGrabInteractable>().enabled = true;
             down_cloth.GetComponent<XRGrabInteractable>().enabled = true;
+            first_socket.SetActive(true);
+            second_socket.SetActive(true);
+
         }
     }
 
-    public void UnderCloth()
+    public void UnderCloth(GameObject obj)
     {
+        Destroy(obj);
         put_cloth++;
     }
-
+    
+    public void Blanket()
+    {
+        if (put_cloth == 4 && buttons == 0)
+        {
+            blanket.GetComponent<XRGrabInteractable>().enabled = false;
+            ObjectsActivator.instance.Activate(2);
+            animator.Play("blank");
+        }
+    }
 }
