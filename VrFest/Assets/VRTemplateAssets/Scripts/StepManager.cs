@@ -3,37 +3,122 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Unity.VRTemplate
+namespace YourNamespace
 {
     /// <summary>
-    /// Controls the steps in the in coaching card.
+    /// Manages level navigation with left/right controls
     /// </summary>
-    public class StepManager : MonoBehaviour
+    public class LevelNavigationManager : MonoBehaviour
     {
         [Serializable]
-        class Step
+        public class Level
         {
             [SerializeField]
-            public GameObject stepObject;
+            public GameObject levelObject;
 
             [SerializeField]
-            public string buttonText;
+            public string levelName;
         }
 
         [SerializeField]
-        public TextMeshProUGUI m_StepButtonTextField;
+        private TextMeshProUGUI m_LevelNameTextField;
 
         [SerializeField]
-        List<Step> m_StepList = new List<Step>();
+        private List<Level> m_LevelList = new List<Level>();
 
-        int m_CurrentStepIndex = 0;
+        [SerializeField]
+        private KeyCode m_LeftKey = KeyCode.LeftArrow;
 
-        public void Next()
+        [SerializeField]
+        private KeyCode m_RightKey = KeyCode.RightArrow;
+
+        private int m_CurrentLevelIndex = 0;
+
+        public int CurrentLevelIndex => m_CurrentLevelIndex;
+        public int TotalLevels => m_LevelList.Count;
+
+        void Start()
         {
-            m_StepList[m_CurrentStepIndex].stepObject.SetActive(false);
-            m_CurrentStepIndex = (m_CurrentStepIndex + 1) % m_StepList.Count;
-            m_StepList[m_CurrentStepIndex].stepObject.SetActive(true);
-            m_StepButtonTextField.text = m_StepList[m_CurrentStepIndex].buttonText;
+            UpdateLevelDisplay();
+        }
+
+        void Update()
+        {
+            // Keyboard navigation
+            if (Input.GetKeyDown(m_LeftKey))
+            {
+                PreviousLevel();
+            }
+            else if (Input.GetKeyDown(m_RightKey))
+            {
+                NextLevel();
+            }
+        }
+
+        public void NextLevel()
+        {
+            if (m_LevelList.Count == 0) return;
+
+            m_LevelList[m_CurrentLevelIndex].levelObject.SetActive(false);
+            m_CurrentLevelIndex = (m_CurrentLevelIndex + 1) % m_LevelList.Count;
+            UpdateLevelDisplay();
+        }
+
+        public void PreviousLevel()
+        {
+            if (m_LevelList.Count == 0) return;
+
+            m_LevelList[m_CurrentLevelIndex].levelObject.SetActive(false);
+            m_CurrentLevelIndex = (m_CurrentLevelIndex - 1 + m_LevelList.Count) % m_LevelList.Count;
+            UpdateLevelDisplay();
+        }
+
+        public void GoToLevel(int levelIndex)
+        {
+            if (m_LevelList.Count == 0 || levelIndex < 0 || levelIndex >= m_LevelList.Count) return;
+
+            m_LevelList[m_CurrentLevelIndex].levelObject.SetActive(false);
+            m_CurrentLevelIndex = levelIndex;
+            UpdateLevelDisplay();
+        }
+
+        private void UpdateLevelDisplay()
+        {
+            if (m_LevelList.Count == 0) return;
+
+            m_LevelList[m_CurrentLevelIndex].levelObject.SetActive(true);
+
+            if (m_LevelNameTextField != null)
+            {
+                m_LevelNameTextField.text = $"{m_LevelList[m_CurrentLevelIndex].levelName} ({m_CurrentLevelIndex + 1}/{m_LevelList.Count})";
+            }
+        }
+
+        // UI Button methods
+        public void OnNextButtonClicked()
+        {
+            NextLevel();
+        }
+
+        public void OnPreviousButtonClicked()
+        {
+            PreviousLevel();
+        }
+
+        // Public methods for external control
+        public bool HasNextLevel()
+        {
+            return m_CurrentLevelIndex < m_LevelList.Count - 1;
+        }
+
+        public bool HasPreviousLevel()
+        {
+            return m_CurrentLevelIndex > 0;
+        }
+
+        public string GetCurrentLevelName()
+        {
+            return m_LevelList.Count > 0 ? m_LevelList[m_CurrentLevelIndex].levelName : "";
         }
     }
 }

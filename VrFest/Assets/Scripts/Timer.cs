@@ -26,12 +26,13 @@ public class Timer : MonoBehaviour
         {
             Timer_value -= Time.deltaTime;
             UpdateTimerDisplay();
+            InjuryLevelController.instance.CheckProgress();
         }
         else
         {
             Timer_value = 0;
             UpdateTimerDisplay();
-            InjuryLevelController.instance.CheckProgress();
+           
         }
     }
 
