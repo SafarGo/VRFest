@@ -4,33 +4,41 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class Eventmanager : MonoBehaviour
+public class Eventmanager : MonoBehaviour, ILevelsController
 {
+    [SerializeField] private bool _isClothesOut;
+    [SerializeField] private bool _isClothesIn;
+    [SerializeField] private bool _isBlanked;
+
     public static int buttons = 4;
+
     public GameObject up_cloth;
     public GameObject down_cloth;
-    public int put_cloth = 0;
-    public int newput_cloth = 0;
-    public bool cloth_up = false;
-    public bool cloth_down = false;
-    public Animator animator;
     public GameObject blanket;
     public GameObject first_socket;
     public GameObject second_socket;
 
+    public int put_cloth = 0;
+    public int newput_cloth = 0;
+
+    public bool cloth_up = false;
+    public bool cloth_down = false;
+
+    public Animator animator;
+    
     public SocketController upSocketController;
     public SocketController downSocketController;
-
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
         string upSocketTag = upSocketController != null ? upSocketController.placedObjectTag : "";
         string downSocketTag = downSocketController != null ? downSocketController.placedObjectTag : "";
-        Debug.Log($"Верхний сокет: {upSocketTag}, Нижний сокет: {downSocketTag}");
+
+        Debug.Log(_isBlanked);
+        Debug.Log(_isClothesIn);
+        Debug.Log(_isClothesOut);
+
+
         if (put_cloth == 3)
         {
             if (upSocketTag == "TShirt" && downSocketTag == "Dick")
@@ -39,6 +47,7 @@ public class Eventmanager : MonoBehaviour
                 put_cloth++;
                 upSocketController.obj.GetComponent<XRGrabInteractable>().enabled = false;
                 downSocketController.obj.GetComponent<XRGrabInteractable>().enabled = false;
+                _isClothesIn = true;
             }
         }
 
@@ -46,6 +55,8 @@ public class Eventmanager : MonoBehaviour
         {
             ObjectsActivator.instance.Activate(0);
             put_cloth++;
+            _isClothesOut = true;
+
         }
 
         if (buttons == 0)
@@ -54,6 +65,7 @@ public class Eventmanager : MonoBehaviour
             down_cloth.GetComponent<XRGrabInteractable>().enabled = true;
             first_socket.SetActive(true);
             second_socket.SetActive(true);
+            buttons--;
 
         }
     }
@@ -66,11 +78,17 @@ public class Eventmanager : MonoBehaviour
     
     public void Blanket()
     {
-        if (put_cloth == 4 && buttons == 0)
+        if (put_cloth == 4)
         {
             blanket.GetComponent<XRGrabInteractable>().enabled = false;
             ObjectsActivator.instance.Activate(2);
             animator.Play("blank");
+            _isBlanked = true;
         }
+    }
+
+    public bool CheckProgress()
+    {
+        return (_isBlanked && _isClothesOut && _isClothesIn) ? true : false;
     }
 }

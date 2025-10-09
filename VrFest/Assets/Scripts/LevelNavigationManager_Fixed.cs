@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 namespace YourNamespace
 {
     /// <summary>
-    /// Manages level navigation with UI buttons
+    /// Manages level navigation with UI buttons - Fixed version with debugging
     /// </summary>
-    public class StepManager : MonoBehaviour
+    public class LevelNavigationManagerFixed : MonoBehaviour
     {
         [Serializable]
         public class Level
@@ -22,7 +22,7 @@ namespace YourNamespace
             public string levelName;
 
             [SerializeField]
-            public string sceneName; // Имя сцены для этого уровня
+            public string sceneName;
         }
 
         [Header("Level Settings")]
@@ -43,7 +43,7 @@ namespace YourNamespace
         private Button m_ExitToLobbyButton;
 
         [SerializeField]
-        private Button m_LoadLevelSceneButton; // Новая кнопка для загрузки сцены уровня
+        private Button m_LoadLevelSceneButton;
 
         [Header("Scene Transition Settings")]
         [SerializeField]
@@ -55,6 +55,10 @@ namespace YourNamespace
         [SerializeField]
         private bool m_ShowLoadingText = true;
 
+        [Header("Debug Settings")]
+        [SerializeField]
+        private bool m_EnableDebugLogs = true;
+
         private int m_CurrentLevelIndex = 0;
 
         public int CurrentLevelIndex => m_CurrentLevelIndex;
@@ -62,7 +66,30 @@ namespace YourNamespace
 
         void Start()
         {
-            // Настраиваем обработчики кнопок
+            LogDebug("LevelNavigationManager Start - Button References:");
+            LogDebug($"Previous Button: {(m_PreviousButton != null ? "Assigned" : "NULL")}");
+            LogDebug($"Next Button: {(m_NextButton != null ? "Assigned" : "NULL")}");
+            LogDebug($"Exit Button: {(m_ExitToLobbyButton != null ? "Assigned" : "NULL")}");
+            LogDebug($"Load Level Button: {(m_LoadLevelSceneButton != null ? "Assigned" : "NULL")}");
+            LogDebug($"Level List Count: {m_LevelList.Count}");
+
+            // РџСЂРѕРІРµСЂРєР° СЃСЃС‹Р»РѕРє РЅР° РєРЅРѕРїРєРё
+            if (m_PreviousButton == null)
+                Debug.LogError("Previous Button reference is NULL! Assign it in inspector.");
+            
+            if (m_NextButton == null)
+                Debug.LogError("Next Button reference is NULL! Assign it in inspector.");
+                
+            if (m_ExitToLobbyButton == null)
+                Debug.LogError("Exit To Lobby Button reference is NULL! Assign it in inspector.");
+                
+            if (m_LoadLevelSceneButton == null)
+                Debug.LogError("Load Level Scene Button reference is NULL! Assign it in inspector.");
+
+            // РџСЂРѕРІРµСЂРєР° СЃРїРёСЃРєР° СѓСЂРѕРІРЅРµР№
+            if (m_LevelList.Count == 0)
+                Debug.LogError("Level List is empty! Add levels in inspector.");
+
             if (m_PreviousButton != null)
                 m_PreviousButton.onClick.AddListener(OnPreviousButtonClicked);
 
@@ -81,7 +108,6 @@ namespace YourNamespace
 
         void OnDestroy()
         {
-            // Отписываемся от событий при уничтожении объекта
             if (m_PreviousButton != null)
                 m_PreviousButton.onClick.RemoveListener(OnPreviousButtonClicked);
 
@@ -95,9 +121,14 @@ namespace YourNamespace
                 m_LoadLevelSceneButton.onClick.RemoveListener(LoadCurrentLevelScene);
         }
 
-        /// <summary>
-        /// Загружает сцену текущего уровня
-        /// </summary>
+        private void LogDebug(string message)
+        {
+            if (m_EnableDebugLogs)
+            {
+                Debug.Log($"[LevelNavigationManager] {message}");
+            }
+        }
+
         public void LoadCurrentLevelScene()
         {
             if (m_LevelList.Count == 0 || m_CurrentLevelIndex >= m_LevelList.Count)
@@ -114,14 +145,12 @@ namespace YourNamespace
                 return;
             }
 
-            Debug.Log($"Loading level scene: {sceneName}");
+            LogDebug($"Loading level scene: {sceneName}");
 
-            // Блокируем кнопку на время загрузки
             if (m_LoadLevelSceneButton != null)
             {
                 m_LoadLevelSceneButton.interactable = false;
 
-                // Меняем текст кнопки на "Loading..."
                 var textComponent = m_LoadLevelSceneButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (textComponent != null && m_ShowLoadingText)
                 {
@@ -129,13 +158,9 @@ namespace YourNamespace
                 }
             }
 
-            // Вызываем загрузку сцены с задержкой для плавности
             Invoke(nameof(ExecuteLevelSceneLoad), m_SceneTransitionDelay);
         }
 
-        /// <summary>
-        /// Выполняет загрузку сцены уровня
-        /// </summary>
         private void ExecuteLevelSceneLoad()
         {
             string sceneName = m_LevelList[m_CurrentLevelIndex].sceneName;
@@ -148,7 +173,6 @@ namespace YourNamespace
             {
                 Debug.LogError($"Failed to load level scene: {sceneName}. Error: {e.Message}");
 
-                // Восстанавливаем кнопку при ошибке
                 if (m_LoadLevelSceneButton != null)
                 {
                     m_LoadLevelSceneButton.interactable = true;
@@ -162,40 +186,9 @@ namespace YourNamespace
             }
         }
 
-        /// <summary>
-        /// Загружает конкретную сцену уровня по индексу
-        /// </summary>
-        public void LoadLevelScene(int levelIndex)
-        {
-            if (levelIndex >= 0 && levelIndex < m_LevelList.Count)
-            {
-                GoToLevel(levelIndex);
-                LoadCurrentLevelScene();
-            }
-        }
-
-        /// <summary>
-        /// Загружает сцену уровня по имени
-        /// </summary>
-        public void LoadLevelScene(string levelSceneName)
-        {
-            for (int i = 0; i < m_LevelList.Count; i++)
-            {
-                if (m_LevelList[i].sceneName == levelSceneName)
-                {
-                    LoadLevelScene(i);
-                    return;
-                }
-            }
-            Debug.LogWarning($"Level scene not found: {levelSceneName}");
-        }
-
-        /// <summary>
-        /// Выход в лобби (главное меню)
-        /// </summary>
         public void ExitToLobby()
         {
-            Debug.Log("Returning to lobby...");
+            LogDebug("Returning to lobby...");
 
             if (m_ExitToLobbyButton != null)
                 m_ExitToLobbyButton.interactable = false;
@@ -203,9 +196,6 @@ namespace YourNamespace
             Invoke(nameof(LoadLobbyScene), m_SceneTransitionDelay);
         }
 
-        /// <summary>
-        /// Загружает сцену лобби
-        /// </summary>
         private void LoadLobbyScene()
         {
             if (!string.IsNullOrEmpty(m_LobbySceneName))
@@ -260,10 +250,8 @@ namespace YourNamespace
         {
             if (m_LevelList.Count == 0) return;
 
-            // Активируем текущий уровень
             m_LevelList[m_CurrentLevelIndex].levelObject.SetActive(true);
 
-            // Обновляем текстовое поле с названием уровня
             if (m_LevelNameTextField != null)
             {
                 m_LevelNameTextField.text = m_LevelList[m_CurrentLevelIndex].levelName;
@@ -272,18 +260,30 @@ namespace YourNamespace
 
         private void UpdateNavigationButtons()
         {
-            // Обновляем состояние кнопок навигации
+            LogDebug("Updating navigation buttons...");
+
             if (m_PreviousButton != null)
             {
-                m_PreviousButton.interactable = HasPreviousLevel();
+                bool canGoPrevious = HasPreviousLevel();
+                m_PreviousButton.interactable = canGoPrevious;
+                LogDebug($"Previous Button interactable: {canGoPrevious}");
+            }
+            else
+            {
+                Debug.LogWarning("Previous Button is NULL!");
             }
 
             if (m_NextButton != null)
             {
-                m_NextButton.interactable = HasNextLevel();
+                bool canGoNext = HasNextLevel();
+                m_NextButton.interactable = canGoNext;
+                LogDebug($"Next Button interactable: {canGoNext}");
+            }
+            else
+            {
+                Debug.LogWarning("Next Button is NULL!");
             }
 
-            // Обновляем состояние кнопки загрузки уровня
             if (m_LoadLevelSceneButton != null)
             {
                 bool hasValidScene = m_LevelList.Count > 0 &&
@@ -291,17 +291,30 @@ namespace YourNamespace
                                    !string.IsNullOrEmpty(m_LevelList[m_CurrentLevelIndex].sceneName);
 
                 m_LoadLevelSceneButton.interactable = hasValidScene;
+                LogDebug($"Load Level Button interactable: {hasValidScene}");
+                LogDebug($"Level List Count: {m_LevelList.Count}, Current Index: {m_CurrentLevelIndex}");
+                
+                if (m_LevelList.Count > 0 && m_CurrentLevelIndex < m_LevelList.Count)
+                {
+                    LogDebug($"Current Level Scene Name: '{m_LevelList[m_CurrentLevelIndex].sceneName}'");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Load Level Button is NULL!");
             }
         }
 
         // UI Button methods
         public void OnNextButtonClicked()
         {
+            LogDebug("Next Button Clicked");
             NextLevel();
         }
 
         public void OnPreviousButtonClicked()
         {
+            LogDebug("Previous Button Clicked");
             PreviousLevel();
         }
 
@@ -329,6 +342,26 @@ namespace YourNamespace
         public int GetCurrentLevelNumber()
         {
             return m_CurrentLevelIndex + 1;
+        }
+
+        // РњРµС‚РѕРґ РґР»СЏ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ РєРЅРѕРїРѕРє (РјРѕР¶РЅРѕ РІС‹Р·РІР°С‚СЊ РёР·РІРЅРµ)
+        public void ForceUpdateButtons()
+        {
+            LogDebug("Force updating buttons...");
+            UpdateNavigationButtons();
+        }
+
+        // РњРµС‚РѕРґ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРЅРѕРїРѕРє
+        public void CheckButtonStates()
+        {
+            LogDebug("=== Button States Check ===");
+            LogDebug($"Previous Button: {(m_PreviousButton != null ? $"Active={m_PreviousButton.interactable}" : "NULL")}");
+            LogDebug($"Next Button: {(m_NextButton != null ? $"Active={m_NextButton.interactable}" : "NULL")}");
+            LogDebug($"Exit Button: {(m_ExitToLobbyButton != null ? $"Active={m_ExitToLobbyButton.interactable}" : "NULL")}");
+            LogDebug($"Load Level Button: {(m_LoadLevelSceneButton != null ? $"Active={m_LoadLevelSceneButton.interactable}" : "NULL")}");
+            LogDebug($"Current Level Index: {m_CurrentLevelIndex}");
+            LogDebug($"Total Levels: {m_LevelList.Count}");
+            LogDebug("=========================");
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdLevelController : MonoBehaviour
+public class ThirdLevelController : MonoBehaviour, ILevelsController
 {
     public static ThirdLevelController instance;
     public bool isHandsTogether = false;
@@ -30,5 +30,10 @@ public class ThirdLevelController : MonoBehaviour
     {
         isEndedPocess = true;
         ObjectsActivator.instance.Activate(2);
+    }
+
+    public bool CheckProgress()
+    {
+        return  (isHandsTogether && isStartedProcess && isEndedPocess) ? true : false;
     }
 }

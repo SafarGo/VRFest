@@ -8,10 +8,21 @@ public class Timer : MonoBehaviour
     public float Timer_value;
     private TMP_Text timer_text;
     public static Timer instance;
+    private ILevelsController levelController;
+    bool _end;
 
     private void Awake()
     {
         instance = this;
+        // Find any component in scene implementing ILevelsController (interface cannot be used directly with FindObjectOfType)
+        foreach (var mb in FindObjectsOfType<MonoBehaviour>())
+        {
+            if (mb is ILevelsController)
+            {
+                levelController = (ILevelsController)mb;
+                break;
+            }
+        }
     }
 
     private void Start()
@@ -22,17 +33,24 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
+        if (_end)
+        {
+            return;
+        }
         if (Timer_value > 0)
         {
             Timer_value -= Time.deltaTime;
             UpdateTimerDisplay();
-            InjuryLevelController.instance.CheckProgress();
+            if(levelController != null && levelController.CheckProgress())
+            {
+                Success(true);
+            }
         }
         else
         {
             Timer_value = 0;
-            UpdateTimerDisplay();
-           
+            bool state = levelController != null && levelController.CheckProgress();
+            Success(state);
         }
     }
 
@@ -45,6 +63,11 @@ public class Timer : MonoBehaviour
 
     public void Success(bool state)
     {
-        timer_text.text = (state) ? "Success" : "Loose";
+        if(!_end)
+        {
+            timer_text.text = (state) ? "Success" : "Loose";
+            _end = true;
+            enabled = false; // stop Update from running further to avoid overwriting the result
+        }
     }
 }

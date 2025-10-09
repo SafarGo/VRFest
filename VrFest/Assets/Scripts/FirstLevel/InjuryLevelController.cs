@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InjuryLevelController : MonoBehaviour
+public class InjuryLevelController : MonoBehaviour, ILevelsController
 {
     public static InjuryLevelController instance;
     public bool IsWaterDropped = false;
@@ -45,9 +45,8 @@ public class InjuryLevelController : MonoBehaviour
         }
     }
 
-    public void CheckProgress()
+    public bool CheckProgress()
     {
-        isLevelEndedSuccesfull = (IsTabletsGave && IsWaterDropped && IsBandageApplied) ? true : false;
-        Timer.instance.Success(isLevelEndedSuccesfull);
+        return isLevelEndedSuccesfull = (IsTabletsGave && IsWaterDropped && IsBandageApplied) ? true : false;
     }
 }
