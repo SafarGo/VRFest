@@ -30,6 +30,7 @@ public class ThirdLevelController : MonoBehaviour, ILevelsController
     {
         isEndedPocess = true;
         ObjectsActivator.instance.Activate(2);
+        AnimController.instance.PlayAnimation();
     }
 
     public bool CheckProgress()

@@ -10,19 +10,12 @@ public class ObjectsActivator : MonoBehaviour
     public static ObjectsActivator instance;
     public AudioSource sound;
     public AudioClip clip;
-    public Animator animator;
-    public string anim;
-    private int activatedCount = 0;
+    
 
     private void Awake()
     {
         instance = this;
         sound.Pause();
-
-        if (animator != null)
-        {
-            animator.enabled = false;
-        }
     }
 
     public void Activate(int index)
@@ -31,13 +24,6 @@ public class ObjectsActivator : MonoBehaviour
         {
             galochki[index].GetComponent<Image>().sprite = Image;
             sound.PlayOneShot(clip);
-
-            activatedCount++;
-
-            if (activatedCount >= 3)
-            {
-                PlayAnimation();
-            }
         }
     }
 
@@ -46,17 +32,5 @@ public class ObjectsActivator : MonoBehaviour
         audio.Play();
     }
 
-    private void PlayAnimation()
-    {
-        if (animator != null)
-        {
-
-            animator.enabled = true;
-
-            animator.Rebind();
-            animator.Update(0f);
-
-            animator.Play(anim);
-        }
-    }
+    
 }
