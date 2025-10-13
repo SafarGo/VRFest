@@ -1,10 +1,13 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectsActivator : MonoBehaviour
 {
     public List<GameObject> galochki = new List<GameObject>();
+    public Sprite Image;
     public static ObjectsActivator instance;
     public AudioSource sound;
     public AudioClip clip;
@@ -17,7 +20,12 @@ public class ObjectsActivator : MonoBehaviour
 
     public void Activate(int index)
     {
-        galochki[index].SetActive(true);
+        galochki[index].GetComponent<Image>().sprite = Image;
         sound.PlayOneShot(clip);
+    }
+
+    public void PlayPods(AudioSource audio)
+    {
+        audio.Play();
     }
 }
