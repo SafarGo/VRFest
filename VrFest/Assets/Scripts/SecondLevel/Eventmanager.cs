@@ -34,11 +34,6 @@ public class Eventmanager : MonoBehaviour, ILevelsController
         string upSocketTag = upSocketController != null ? upSocketController.placedObjectTag : "";
         string downSocketTag = downSocketController != null ? downSocketController.placedObjectTag : "";
 
-        Debug.Log(_isBlanked);
-        Debug.Log(_isClothesIn);
-        Debug.Log(_isClothesOut);
-
-
         if (put_cloth == 3)
         {
             if (upSocketTag == "TShirt" && downSocketTag == "Dick")
