@@ -45,8 +45,6 @@ public class Eventmanager : MonoBehaviour, ILevelsController
             {
                 ObjectsActivator.instance.Activate(1);
                 put_cloth++;
-                upSocketController.obj.GetComponent<XRGrabInteractable>().enabled = false;
-                downSocketController.obj.GetComponent<XRGrabInteractable>().enabled = false;
                 _isClothesIn = true;
             }
         }
