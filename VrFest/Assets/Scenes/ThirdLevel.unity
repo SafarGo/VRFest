@@ -10303,6 +10303,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3088742014086548240, guid: a4ca30dfdb809d246b969425f8aa48fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ce35cb8e2587586409e7edb884d39e97, type: 2}
+    - target: {fileID: -3088742014086548240, guid: a4ca30dfdb809d246b969425f8aa48fd, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8aa6182bd68094849870fb353af8a0a8, type: 2}
+    - target: {fileID: -3088742014086548240, guid: a4ca30dfdb809d246b969425f8aa48fd, type: 3}
+      propertyPath: m_Materials.Array.data[7]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1556b89d5a7a65144ab5144586a02214, type: 2}
     - target: {fileID: 919132149155446097, guid: a4ca30dfdb809d246b969425f8aa48fd, type: 3}
       propertyPath: m_Name
       value: lezhalvstal
