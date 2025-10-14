@@ -6,6 +6,8 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class Eventmanager : MonoBehaviour, ILevelsController
 {
+    public static Eventmanager instance;
+
     [SerializeField] private bool _isClothesOut;
     [SerializeField] private bool _isClothesIn;
     [SerializeField] private bool _isBlanked;
@@ -18,16 +20,19 @@ public class Eventmanager : MonoBehaviour, ILevelsController
     public GameObject first_socket;
     public GameObject second_socket;
 
-    public int put_cloth = 0;
+    public static int put_cloth = 0;
     public int newput_cloth = 0;
 
     public bool cloth_up = false;
     public bool cloth_down = false;
-
-    public Animator animator;
     
     public SocketController upSocketController;
     public SocketController downSocketController;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     private void Update()
     {
@@ -41,6 +46,7 @@ public class Eventmanager : MonoBehaviour, ILevelsController
                 ObjectsActivator.instance.Activate(1);
                 put_cloth++;
                 _isClothesIn = true;
+                blanket.SetActive(true);
             }
         }
 
@@ -75,7 +81,6 @@ public class Eventmanager : MonoBehaviour, ILevelsController
         {
             blanket.GetComponent<XRGrabInteractable>().enabled = false;
             ObjectsActivator.instance.Activate(2);
-            animator.Play("blank");
             _isBlanked = true;
         }
     }
