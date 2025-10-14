@@ -6050,6 +6050,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 269153197523136777, guid: c397be4d4ab05c54984a88b27b75523e, type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 1089572002}
+    - target: {fileID: 359279555674620940, guid: c397be4d4ab05c54984a88b27b75523e, type: 3}
+      propertyPath: m_text
+      value: "\u041E\u0434\u0435\u043D\u044C\u0442\u0435 \u043D\u0430 \u043F\u043E\u0441\u0442\u0440\u0430\u0434\u0430\u0432\u0448\u0435\u0433\u043E
+        \u0442\u0435\u043F\u043B\u0443\u044E \u043E\u0434\u0435\u0436\u0434\u0443"
+      objectReference: {fileID: 0}
     - target: {fileID: 755430463773390473, guid: c397be4d4ab05c54984a88b27b75523e, type: 3}
       propertyPath: m_Name
       value: Info_Table_for_tutorial
@@ -6062,10 +6071,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 1253092720}
+    - target: {fileID: 8382314479388401628, guid: c397be4d4ab05c54984a88b27b75523e, type: 3}
+      propertyPath: m_text
+      value: "\u041D\u0430\u043A\u0440\u043E\u0439\u0442\u0435 \u043F\u043E\u0441\u0442\u0440\u0430\u0434\u0430\u0432\u0448\u0435\u0433\u043E
+        \u0442\u0435\u043F\u043B\u044B\u043C \u043E\u0434\u0435\u044F\u043B\u043E\u043C,
+        \u0447\u0442\u043E\u0431\u044B \u0442\u043E\u0442 \u0441\u043E\u0433\u0440\u0435\u043B\u0441\u044F"
+      objectReference: {fileID: 0}
     - target: {fileID: 8527528979164867510, guid: c397be4d4ab05c54984a88b27b75523e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 1796041320}
+    - target: {fileID: 8589979259064541208, guid: c397be4d4ab05c54984a88b27b75523e, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u043D\u0438\u043C\u0438\u0442\u0435 \u043C\u043E\u043A\u0440\u0443\u044E
+        \u043E\u0434\u0435\u0436\u0434\u0443 \u0441 \u043F\u043E\u0441\u0442\u0440\u0430\u0434\u0430\u0432\u0448\u0435\u0433\u043E."
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
